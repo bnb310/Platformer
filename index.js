@@ -2,7 +2,7 @@
 
 const apiKey = '2093ca02909677c3ebd944675cf48e98e29c8f5d'; 
 
-const gameURL = `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=json`;
+const gameURL = `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp`;
 
 /*const platformURL = `https://www.giantbomb.com/api/games/?api_key=${apiKey}&filter=platforms:${userPlatform}`*/
 
