@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    font-family: 'Russo One', sans-serif;
+  }
+  
+  .results, li {
+    font-family: 'Source Code Pro', monospace;
+  }
