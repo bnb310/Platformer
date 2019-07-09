@@ -14,7 +14,7 @@ function findGUID(gameInput) {
       url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&field_list=name,guid&offset=${nextList}`,
       dataType: 'jsonp',
       jsonp: 'json_callback',
-      success(data) {
+      success: function(data) {
         console.log(data);
       for (let i = 0; i <= data.results.length; i++) {
         /*let returnedName = data.results[i].name;*/
@@ -30,6 +30,10 @@ function findGUID(gameInput) {
     }
       },
     });
+
+    /*https://stackoverflow.com/questions/3963906/problems-executing-a-jquery-ajax-call-within-a-function*/
+
+    /*https://www.w3schools.com/jsref/jsref_break.asp*/
 }
 
 function findPlatforms(gameGUID) {
@@ -38,14 +42,14 @@ function findPlatforms(gameGUID) {
       url: `https://www.giantbomb.com/api/game/${gameGUID}/?api_key=${apiKey}&field_list=name,platforms&format=jsonp`,
       dataType: 'jsonp',
       jsonp: 'json_callback',
-      success(data) {
+      success: function(data) {
         console.log(data);
         $(displayResults);
       },
     });
 }
 
-function displayResults() {
+function displayResults(data) {
   $('.results').empty();
   for (let j = 0; j < data.results.platforms[j].length; j++)
   $('.results').append(`<li>${data.results.platforms[j]}</li>`)
