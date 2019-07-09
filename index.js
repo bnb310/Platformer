@@ -13,8 +13,9 @@ function findGUID (gameInput) {
       success: function(data) {
         console.log(data);
         gameGUID = data.results[0].guid;
-        findPlatforms(gameGUID);
+        findPlatforms(gameGUID); 
       },
+      error: $('.results').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`),
     });
 }
 
@@ -29,6 +30,7 @@ function findPlatforms(gameGUID) {
         console.log(data);
         displayResults(data);
       },
+      error: $('.results').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`), 
     });
 }
 
