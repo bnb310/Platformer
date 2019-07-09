@@ -4,40 +4,58 @@ const apiKey = '2093ca02909677c3ebd944675cf48e98e29c8f5d';
 
 const gameURL = `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp`;
 
-/*const platformURL = `https://www.giantbomb.com/api/games/?api_key=${apiKey}&filter=platforms:${userPlatform}`*/
+let gameGUID = 0;
 
-/*const gamePlatform = `https://www.giantbomb.com/api/game/[guid]/?api_key=${apiKey}`;*/
+let nextList = 0;
 
-function displayPlatforms(responseJson) {
-console.log(responseJson);
-for (let i = 0; i < responseJson.results.length; i++) {
-  if (responseJson.results[i].name === gameInput)
-    $('.results').html(`<h2>${responseJson.results[i].name}</h2>`);
-    for (let a = 0; a < responseJson.results[i].platforms.length; a++) {
-      $('.results').append(`<li>${responseJson.results[i].platforms[a].name}</li>`);
+function findGUID(gameInput) {
+  $.ajax({
+      type: 'get',
+      url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&field_list=name,guid&offset=${nextList}`,
+      dataType: 'jsonp',
+      jsonp: 'json_callback',
+      success(data) {
+        console.log(data);
+      for (let i = 0; i <= data.results.length; i++) {
+        /*let returnedName = data.results[i].name;*/
+      if (gameInput == data.results[i].name) {
+        gameGUID = data.results[i].guid;
+        $(findPlatforms(gameGUID));
+        break;
+      }
+      /*else if (i = data.results.length) {
+        nextList += 100;
+        $(findGUID);
+      }*/
     }
-}
+      },
+    });
 }
 
-function findPlatforms() {
-  fetch(gameURL)
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    };
-    throw new Error(response.statusText);
-  })
-  .then(responseJson => displayPlatforms(responseJson))
-  .catch(err => {
-    $('.results').html('<p>Something went wrong.  Please try again later</p>');
-  });
+function findPlatforms(gameGUID) {
+  $.ajax({
+      type: 'get',
+      url: `https://www.giantbomb.com/api/game/${gameGUID}/?api_key=${apiKey}&field_list=name,platforms&format=jsonp`,
+      dataType: 'jsonp',
+      jsonp: 'json_callback',
+      success(data) {
+        console.log(data);
+        $(displayResults);
+      },
+    });
+}
+
+function displayResults() {
+  $('.results').empty();
+  for (let j = 0; j < data.results.platforms[j].length; j++)
+  $('.results').append(`<li>${data.results.platforms[j]}</li>`)
 }
 
 function watchForm() {
    $('form').submit(event => {
      event.preventDefault();
-     const gameInput = $('#gameSearch').val();
-     findPlatforms();
+     let gameInput = $('#gameSearch').val();
+     findGUID(gameInput);
    });
 }
 
