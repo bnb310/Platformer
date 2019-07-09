@@ -51,8 +51,8 @@ function findPlatforms(gameGUID) {
 
 function displayResults(data) {
   $('.results').empty();
-  for (let i = 0; i < data.results.platforms[i].length; i++)
-  $('.results').append(`<li>${data.results.platforms[i]}</li>`)
+  for (let i = 0; i < data.results.platforms[i].length; i++) {
+  $('.results').append(`<li>${data.results.platforms[i]}</li>`)}
 }
 
 function watchForm() {
