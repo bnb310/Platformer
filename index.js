@@ -1,8 +1,17 @@
-'use strict';
-
 const apiKey = '2093ca02909677c3ebd944675cf48e98e29c8f5d'; 
 
 let gameGUID = 0;
+
+let nextList = 0;
+
+function watchGameForm() {
+  $('main').on('click', ' #gamePlatformSearch', function(event) {
+    event.preventDefault();
+    let gameInput = $('#gameSearch').val();
+    findGUID(gameInput);
+    console.log('called watchGameForm')
+  });
+}
 
 function findGUID (gameInput) {
   $.ajax({
@@ -12,13 +21,14 @@ function findGUID (gameInput) {
       jsonp: 'json_callback',
       success: function(data) {
         console.log(data);
-        gameGUID = data.results[0].guid;
+        try {gameGUID = data.results[0].guid;}
+        catch(err) {
+          $('.resultsList').empty();
+          $('.resultsList').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`); return}
         findPlatforms(gameGUID); 
       },
-      error: $('.results').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`),
     });
 }
-
 
 function findPlatforms(gameGUID) {
   $.ajax({
@@ -30,24 +40,123 @@ function findPlatforms(gameGUID) {
         console.log(data);
         displayResults(data);
       },
-      error: $('.results').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`), 
     });
 }
 
 function displayResults(data) {
-  $('.results').empty();
-  $('.results').append(`<h2>${data.results.name} is available on:</h2>`);
+  $('.resultsList').empty();
+  $('.resultsList').append(`<h2>${data.results.name} is available on:</h2>`);
   for (let i = 0; i < data.results.platforms.length; i++) {
     console.log(data.results.platforms[i]);
-  $('.results').append(`<li>${data.results.platforms[i].name}</li>`)}
+  $('.resultsList').append(`<li>${data.results.platforms[i].name}</li>`)}
 }
 
-function watchForm() {
-   $('form').submit(event => {
+function watchPlatformForm() {
+  $('main').on('click', ' #platformSearch', function(event) {
      event.preventDefault();
-     let gameInput = $('#gameSearch').val();
-     findGUID(gameInput);
+     let chosenPlatform = $('select#Platform').val();
+     /*let chosenPlatformName = $('select.option.label').text();*/
+     let maxResults = $('#chosenMaxResults').val();
+     findGames(chosenPlatform, maxResults);
+     console.log('called watchPlatformForm')
    });
 }
 
-$(watchForm);
+function findGames(chosenPlatform, maxResults) {
+  $.ajax({
+      type: 'get',
+      url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&limit=${maxResults}&platforms=${chosenPlatform}&offset=${nextList}&field_list=image,name`,
+      dataType: 'jsonp',
+      jsonp: 'json_callback',
+      success: function(data) {
+        console.log(data);        
+        displayPlatformResults(data, chosenPlatform, maxResults);
+      },
+    });
+}
+
+function displayPlatformResults(data, chosenPlatform, maxResults) {
+  $('.resultsList').empty();
+  $('.resultsList').append(`<h2>Games Available on ${chosenPlatform}</h2>`);
+  for (let i = 0; i < data.results.length; i++) {
+  $('.resultsList').append(`
+  <img src = '${data.results[i].image.small_url}'>
+  <li>${data.results[i].name}</li>`)}
+  $('.resultsList').append(`<button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button>`)
+  $('.resultsList').on('click', '.more', function(event) {
+    nextList += maxResults;
+    findGames(chosenPlatform, maxResults);})
+}
+
+function switchToPlatform() {
+  $('main').on('click', '.platformPage', function(event) {
+    console.log('called switchToPlatform')
+    $('main').html(`
+    <nav>
+      <h1>Platformer</h1>
+      <button type = 'button' class = 'gamePage'>Game</button>
+    </nav>
+    <form>
+        <label for = 'Platform'>Preferred Platform</label>
+        <select id = 'Platform'>
+          <option value = '94' label = 'Windows'>Windows</option>
+          <option value = '17' label = 'Mac'>Mac</option>
+          <option value = '152' label = 'Linux'>Linux</option>
+          <option value = '146' label = 'PS4'>PS4</option>
+          <option value = '123' label = 'Android'>Android</option>
+          <option value = '96' label = 'IPhone'>IPhone</option>
+          <option value = '145' label = 'XBox One'>XBox One</option>
+          <option value = '157' label = 'Nintendo Switch'>Nintendo Switch</option>
+          <option value = '117,138' label = 'Nintentdo 3DS'>Nintentdo 3DS</option>
+          <option value = '35,88' label = 'PS3'>PS3</option>
+          <option value = '20' label = 'XBox 360'>XBox 360</option>
+          <option value = '18,116' label = 'PlayStation Portable'>PlayStation Portable</option>
+          <option value = '129,143' label = 'PlayStation Vita'>PlayStation Vita</option>
+          <option value = '52' label = 'Nintendo DS'>Nintendo DS</option>
+          <option value = '36' label = 'Wii'>Wii</option>
+          <option value = '139' label = 'Wii U'>Wii U</option>
+          <option value = '176' label = 'PS5'>PS5</option>
+          <option value = '177' label = 'Oculus Quest'>Oculus Quest</option>
+          <option value = '179' label = 'Project Scarlett'>Project Scarlett</option>
+        </select>
+        <label for = 'maxResults'>Number of Games to return</label>
+        <input type = 'number' name = 'maxResults' id = 'chosenMaxResults' value = '5' max = '50'>
+        <input type = 'submit' id = 'platformSearch' value = 'See Games!'>
+      </form>
+      <div class = 'resultsList'>
+        <p>Select a platform to see games available on your chosen platform!</p>
+      </div>
+      <div class = 'userNotice'>
+        <p>Don't see a platform you use?  Submit a request to have your platform added <a href = ''>here</a></p>
+      </div>`)
+  });
+  
+}
+
+function switchToGame() {
+  $('main').on('click', '.gamePage', function(event) {
+    console.log('called switchToGame');
+    $('main').html(`
+    <nav>
+        <h1>Platformer</h1>
+        <button type = 'button' class = 'platformPage'>Platform</button>
+    </nav>
+    <form>
+        <label for = 'gameSearch'>Game</label>
+        <input type = 'text' id = 'gameSearch' value = 'Deflektor'>
+        <input type = 'submit' id = 'gamePlatformSearch' value = 'See Platforms!'>
+      </form>
+      <div class = 'resultsList'>
+        <p>Search for a Game to see what platforms it is available on!</p>
+      </div>`)
+  })
+}
+
+function handlePage() {
+  watchGameForm();
+  watchPlatformForm();
+  switchToPlatform();
+  switchToGame();
+}
+
+$(handlePage);
