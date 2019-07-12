@@ -9,3 +9,7 @@
   .results, li {
     font-family: 'Source Code Pro', monospace;
   }
+
+img {
+  max-height: 200px;
+}
