@@ -45,13 +45,14 @@ function findPlatforms(gameGUID) {
 
 function displayResults(data) {
   $('.resultsList').empty();
-  /*if (data.results.platforms = null) {
-    $('.resultsList').append('<p>Nothing. We have no idea what platforms you might be able to find this game on.  Try looking for a different game.</p>')
-  }*/
   $('.resultsList').append(`<h2>${data.results.name} is available on:</h2>`);
-  for (let i = 0; i < data.results.platforms.length; i++) {
+  try {for (let i = 0; i < data.results.platforms.length; i++) {
     console.log(data.results.platforms[i]);
   $('.resultsList').append(`<li>${data.results.platforms[i].name}</li>`)}
+  }
+  catch(err) {
+    $('.resultsList').append(`<p>Nothing. We have no idea what platforms you might be able to find this game on.  Try looking for a different game.</p>`)
+  }
 
 }
 
