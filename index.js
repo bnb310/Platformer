@@ -99,7 +99,7 @@ function switchToPlatform() {
     $('main').html(`
     <nav>
       <h1>Platformer</h1>
-      <button type = 'button' class = 'gamePage'>Game</button>
+      <button type = 'button' class = 'gamePage'>Search By Game</button>
     </nav>
     <form>
         <label for = 'Platform'>Preferred Platform</label>
@@ -144,7 +144,7 @@ function switchToGame() {
     $('main').html(`
     <nav>
         <h1>Platformer</h1>
-        <button type = 'button' class = 'platformPage'>Platform</button>
+        <button type = 'button' class = 'platformPage'>Search By Platform</button>
     </nav>
     <form>
         <label for = 'gameSearch'>Game</label>
