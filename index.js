@@ -24,7 +24,7 @@ function findGUID (gameInput) {
         try {gameGUID = data.results[0].guid;}
         catch(err) {
           $('.resultsList').empty();
-          $('.resultsList').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game</p>`); return}
+          $('.resultsList').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game.</p>`); return}
         findPlatforms(gameGUID); 
       },
     });
@@ -45,17 +45,21 @@ function findPlatforms(gameGUID) {
 
 function displayResults(data) {
   $('.resultsList').empty();
+  /*if (data.results.platforms = null) {
+    $('.resultsList').append('<p>Nothing. We have no idea what platforms you might be able to find this game on.  Try looking for a different game.</p>')
+  }*/
   $('.resultsList').append(`<h2>${data.results.name} is available on:</h2>`);
   for (let i = 0; i < data.results.platforms.length; i++) {
     console.log(data.results.platforms[i]);
   $('.resultsList').append(`<li>${data.results.platforms[i].name}</li>`)}
+
 }
 
 function watchPlatformForm() {
   $('main').on('click', ' #platformSearch', function(event) {
      event.preventDefault();
      let chosenPlatform = $('select#Platform').val();
-     /*let chosenPlatformName = $('select.option.label').text();*/
+     chosenPlatformName = $('#Platform option:selected').text();
      let maxResults = $('#chosenMaxResults').val();
      findGames(chosenPlatform, maxResults);
      console.log('called watchPlatformForm')
@@ -70,21 +74,22 @@ function findGames(chosenPlatform, maxResults) {
       jsonp: 'json_callback',
       success: function(data) {
         console.log(data);        
-        displayPlatformResults(data, chosenPlatform, maxResults);
+        displayPlatformResults(data, chosenPlatformName, maxResults);
       },
     });
 }
 
-function displayPlatformResults(data, chosenPlatform, maxResults) {
+function displayPlatformResults(data, chosenPlatformName, maxResults) {
   $('.resultsList').empty();
-  $('.resultsList').append(`<h2>Games Available on ${chosenPlatform}</h2>`);
+  $('.resultsList').append(`<h2>Games Available on ${chosenPlatformName}</h2>`);
   for (let i = 0; i < data.results.length; i++) {
   $('.resultsList').append(`
   <img src = '${data.results[i].image.small_url}'>
   <li>${data.results[i].name}</li>`)}
-  $('.resultsList').append(`<button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button>`)
+  $('.resultsList').append(`<button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button>`);
   $('.resultsList').on('click', '.more', function(event) {
-    nextList += maxResults;
+    nextList = parseFloat(nextList) + parseFloat(maxResults);
+    let chosenPlatform = $('select#Platform').val();
     findGames(chosenPlatform, maxResults);})
 }
 
@@ -143,7 +148,7 @@ function switchToGame() {
     </nav>
     <form>
         <label for = 'gameSearch'>Game</label>
-        <input type = 'text' id = 'gameSearch' value = 'Deflektor'>
+        <input type = 'text' id = 'gameSearch' placeholder = 'Enter Name of Game Here'>
         <input type = 'submit' id = 'gamePlatformSearch' value = 'See Platforms!'>
       </form>
       <div class = 'resultsList'>
