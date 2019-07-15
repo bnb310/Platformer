@@ -83,7 +83,7 @@ function findGames(chosenPlatform) {
 
 function displayPlatformResults(data, chosenPlatformName) {
   $('.resultsList').empty();
-  $('.resultsList').append(`<h2>Games Available on ${chosenPlatformName}</h2>`);
+  $('.resultsList').append(`<h2>Games Available on ${chosenPlatformName}:</h2>`);
   for (let i = 0; i < data.results.length; i++) {
   $('.resultsList').append(`
   <li><img src = '${data.results[i].image.small_url}'>
