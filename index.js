@@ -1,4 +1,4 @@
-'use strict'
+
 
 const apiKey = '2093ca02909677c3ebd944675cf48e98e29c8f5d'; 
 
