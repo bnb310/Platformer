@@ -1,3 +1,5 @@
+'use strict'
+
 const apiKey = '2093ca02909677c3ebd944675cf48e98e29c8f5d'; 
 
 let gameGUID = 0;
@@ -61,37 +63,36 @@ function watchPlatformForm() {
      event.preventDefault();
      let chosenPlatform = $('select#Platform').val();
      chosenPlatformName = $('#Platform option:selected').text();
-     let maxResults = $('#chosenMaxResults').val();
-     findGames(chosenPlatform, maxResults);
+     findGames(chosenPlatform);
      console.log('called watchPlatformForm')
    });
 }
 
-function findGames(chosenPlatform, maxResults) {
+function findGames(chosenPlatform) {
   $.ajax({
       type: 'get',
-      url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&limit=${maxResults}&platforms=${chosenPlatform}&offset=${nextList}&field_list=image,name`,
+      url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&limit=5&platforms=${chosenPlatform}&offset=${nextList}&field_list=image,name`,
       dataType: 'jsonp',
       jsonp: 'json_callback',
       success: function(data) {
         console.log(data);        
-        displayPlatformResults(data, chosenPlatformName, maxResults);
+        displayPlatformResults(data, chosenPlatformName);
       },
     });
 }
 
-function displayPlatformResults(data, chosenPlatformName, maxResults) {
+function displayPlatformResults(data, chosenPlatformName) {
   $('.resultsList').empty();
   $('.resultsList').append(`<h2>Games Available on ${chosenPlatformName}</h2>`);
   for (let i = 0; i < data.results.length; i++) {
   $('.resultsList').append(`
-  <img src = '${data.results[i].image.small_url}'>
-  <li>${data.results[i].name}</li>`)}
+  <li><img src = '${data.results[i].image.small_url}'>
+  ${data.results[i].name}</li>`)}
   $('.resultsList').append(`<button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button>`);
   $('.resultsList').on('click', '.more', function(event) {
-    nextList = parseFloat(nextList) + parseFloat(maxResults);
+    nextList = nextList + 5;
     let chosenPlatform = $('select#Platform').val();
-    findGames(chosenPlatform, maxResults);})
+    findGames(chosenPlatform);})
 }
 
 function switchToPlatform() {
@@ -125,15 +126,13 @@ function switchToPlatform() {
           <option value = '177' label = 'Oculus Quest'>Oculus Quest</option>
           <option value = '179' label = 'Project Scarlett'>Project Scarlett</option>
         </select>
-        <label for = 'maxResults'>Number of Games to return</label>
-        <input type = 'number' name = 'maxResults' id = 'chosenMaxResults' value = '5' max = '50'>
         <input type = 'submit' id = 'platformSearch' value = 'See Games!'>
       </form>
       <div class = 'resultsList'>
         <p>Select a platform to see games available on your chosen platform!</p>
       </div>
       <div class = 'userNotice'>
-        <p>Don't see a platform you use?  Submit a request to have your platform added <a href = ''>here</a></p>
+        <p>Don't see a platform you use?  Submit a request to have your platform added <a href = 'mailto:brittany.n.baird@gmail.com?subject=Platform%20Request'>here</a></p>
       </div>`)
   });
   
