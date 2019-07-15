@@ -1,15 +1,113 @@
 * {
-    box-sizing: border-box;
-  }
-  
-  h1 {
-    font-family: 'Russo One', sans-serif;
-  }
-  
-  .results, li {
-    font-family: 'Source Code Pro', monospace;
-  }
+  box-sizing: border-box;
+  background-color: rgb(49, 49, 49);
+  color: rgb(233, 233, 233);
+}
+
+h1 {
+  font-family: 'Russo One', sans-serif;
+  margin-right: 5px;
+}
+
+h2, p  {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.results, li {
+  font-family: 'Source Code Pro', monospace;
+}
 
 img {
-  max-height: 200px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.resultsList {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  max-width: fit-content;
+  border-radius: 10px;
+}
+
+li {
+  background-color: rgb(70, 70, 70);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+form {
+  background-color: rgb(70, 70, 70);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  color: rgb(155, 112, 155);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+label {
+  display: none;
+}
+
+input {
+  border: none;
+  border-radius: 3px;
+  margin: 5px;
+}
+
+button {
+  background-color: rgb(155, 112, 155);
+  border: none;
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  border-radius: 5px;
+}
+
+#gamePlatformSearch, #platformSearch {
+  background-color:  rgb(155, 112, 155);
+  
+}
+
+.more {
+  margin-top: 20px;
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+select {
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 480px) {
+  form {
+    flex-direction: column;
+  }
+
+  img {
+    max-width: 200px;
+  }
 }
