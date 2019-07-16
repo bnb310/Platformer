@@ -21,7 +21,6 @@ function findGUID (gameInput) {
       dataType: 'jsonp',
       jsonp: 'json_callback',
       success: function(data) {
-        console.log(data);
         try {gameGUID = data.results[0].guid;}
         catch(err) {
           $('.resultsList').empty();
@@ -48,7 +47,6 @@ function displayResults(data) {
   $('.resultsList').empty();
   $('.resultsList').append(`<h2>${data.results.name} is available on:</h2>`);
   try {for (let i = 0; i < data.results.platforms.length; i++) {
-    console.log(data.results.platforms[i]);
   $('.resultsList').append(`<li>${data.results.platforms[i].name}</li>`)}
   }
   catch(err) {
@@ -72,8 +70,7 @@ function findGames(chosenPlatform) {
       url: `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=jsonp&limit=5&platforms=${chosenPlatform}&offset=${nextList}&field_list=image,name`,
       dataType: 'jsonp',
       jsonp: 'json_callback',
-      success: function(data) {
-        console.log(data);        
+      success: function(data) {       
         displayPlatformResults(data, chosenPlatformName);
       },
     });
