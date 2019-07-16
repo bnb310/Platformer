@@ -88,8 +88,8 @@ function displayPlatformResults(data, chosenPlatformName) {
   $('.resultsList').append(`
   <li><img src = '${data.results[i].image.small_url}'>
   ${data.results[i].name}</li>`)}
-  $('.resultsList').append(`<button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button>`);
-  $('.resultsList').on('click', '.more', function(event) {
+  $('.resultsList').append(`<div class = 'findMore'><button type = 'button' class = 'more' value = 'See More Games!'>See More Games!</button></div>`);
+  $('.findMore').on('click', '.more', function(event) {
     nextList = nextList + 5;
     let chosenPlatform = $('select#Platform').val();
     findGames(chosenPlatform);})
