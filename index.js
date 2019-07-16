@@ -11,7 +11,6 @@ function watchGameForm() {
     event.preventDefault();
     let gameInput = $('#gameSearch').val();
     findGUID(gameInput);
-    console.log('called watchGameForm')
   });
 }
 
@@ -64,7 +63,6 @@ function watchPlatformForm() {
      let chosenPlatform = $('select#Platform').val();
      chosenPlatformName = $('#Platform option:selected').text();
      findGames(chosenPlatform);
-     console.log('called watchPlatformForm')
    });
 }
 
@@ -97,7 +95,6 @@ function displayPlatformResults(data, chosenPlatformName) {
 
 function switchToPlatform() {
   $('main').on('click', '.platformPage', function(event) {
-    console.log('called switchToPlatform')
     $('main').html(`
     <nav>
       <h1>Platformer</h1>
@@ -140,7 +137,6 @@ function switchToPlatform() {
 
 function switchToGame() {
   $('main').on('click', '.gamePage', function(event) {
-    console.log('called switchToGame');
     $('main').html(`
     <nav>
         <h1>Platformer</h1>
