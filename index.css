@@ -92,6 +92,11 @@ button {
   margin-top: 20px;
 }
 
+.findMore {
+  display: flex;
+  justify-content: center;
+}
+
 .resultsList {
   display: flex;
   flex-direction: column;
