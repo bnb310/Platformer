@@ -4,6 +4,10 @@
   color: rgb(233, 233, 233);
 }
 
+#gamePlatformSearch, #platformSearch, select {
+  cursor: pointer;
+}
+
 h1 {
   font-family: 'Russo One', sans-serif;
   margin-right: 5px;
@@ -81,6 +85,7 @@ button {
   margin-top: auto;
   margin-bottom: auto;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 #gamePlatformSearch, #platformSearch {
