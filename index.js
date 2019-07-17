@@ -6,6 +6,10 @@ let gameGUID = 0;
 
 let nextList = 0;
 
+function displayError() {
+  $('.resultsList').append(`<p>Something went wrong. Please try again later.</p>`)
+}
+
 function watchGameForm() {
   $('main').on('click', ' #gamePlatformSearch', function(event) {
     event.preventDefault();
@@ -27,6 +31,12 @@ function findGUID (gameInput) {
           $('.resultsList').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game.</p>`); return}
         findPlatforms(gameGUID); 
       },
+      timeout: 5000,
+      error: function(textStatus) {
+        if(Error) {
+          displayError();
+        }
+      }
     });
 }
 
@@ -73,6 +83,12 @@ function findGames(chosenPlatform) {
       success: function(data) {       
         displayPlatformResults(data, chosenPlatformName);
       },
+      timeout: 5000,
+      error: function(textStatus) {
+        if(Error) {
+          displayError();
+        }
+      }
     });
 }
 
