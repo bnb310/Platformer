@@ -47,7 +47,6 @@ function findPlatforms(gameGUID) {
       dataType: 'jsonp',
       jsonp: 'json_callback',
       success: function(data) {
-        console.log(data);
         displayResults(data);
       },
     });
