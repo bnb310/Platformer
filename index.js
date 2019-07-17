@@ -27,7 +27,12 @@ function findGUID (gameInput) {
           $('.resultsList').append(`<p>Sorry, the game you are searching for cannot be found. Please try a different game.</p>`); return}
         findPlatforms(gameGUID); 
       },
+    error: displayError(),
     });
+}
+
+function displayError() {
+  $('.resultsList').append(`<p>Something went wrong. Please try again later.</p>`)
 }
 
 function findPlatforms(gameGUID) {
